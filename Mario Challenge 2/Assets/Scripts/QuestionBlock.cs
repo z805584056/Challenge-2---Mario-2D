@@ -11,6 +11,9 @@ public class QuestionBlock : MonoBehaviour {
     public float coinMoveHeight = 3f;
     public float coinFallDistance = 2f;
 
+    private AudioSource audioSource;
+    public AudioClip coinClip;
+
     private Vector2 originalPosition;
 
     public Sprite emptyBlockSprite;
@@ -22,7 +25,9 @@ public class QuestionBlock : MonoBehaviour {
 
         originalPosition = transform.localPosition;
 
-	}
+        audioSource = GetComponent<AudioSource>();
+
+    }
 
     public void QuestionBlockBounce()
     {
@@ -31,6 +36,7 @@ public class QuestionBlock : MonoBehaviour {
             canBounce = false;
 
             StartCoroutine(Bounce());
+
         }
     }
 	
@@ -39,11 +45,17 @@ public class QuestionBlock : MonoBehaviour {
 		
 	}
 
+    void PlaySound()
+    {
+        audioSource.PlayOneShot(coinClip,1f);
+    }
+
     void ChangeSprite()
     {
         GetComponent<Animator>().enabled = false;
 
         GetComponent<SpriteRenderer>().sprite = emptyBlockSprite;
+
     }
 
     void PresentCoin()
@@ -62,6 +74,8 @@ public class QuestionBlock : MonoBehaviour {
         ChangeSprite();
 
         PresentCoin();
+
+        PlaySound();
 
         while (true)
         {

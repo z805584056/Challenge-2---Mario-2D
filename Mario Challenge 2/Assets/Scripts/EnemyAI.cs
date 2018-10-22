@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-
     public float gravity;
     public Vector2 velocity;
     public bool isWalkingLeft = true;
@@ -19,6 +18,9 @@ public class EnemyAI : MonoBehaviour
 
     public float timeBeforeDestroy = 1.0f;
 
+    private AudioSource audioSource;
+    public AudioClip deathClip;
+
     private enum EnemyState
     {
         walking,
@@ -31,6 +33,7 @@ public class EnemyAI : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
 
         enabled = false;
 
@@ -47,6 +50,11 @@ public class EnemyAI : MonoBehaviour
 
     }
 
+    void PlaySound()
+    {
+        audioSource.PlayOneShot(deathClip, 1f);
+    }
+
     public void Crush()
     {
         state = EnemyState.dead;
@@ -56,6 +64,8 @@ public class EnemyAI : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
 
         shouldDie = true;
+
+        PlaySound();
     }
 
     void CheckCrushed()
@@ -70,6 +80,7 @@ public class EnemyAI : MonoBehaviour
             {
                 shouldDie = false;
                 Destroy(this.gameObject);
+              
             }
         }
 

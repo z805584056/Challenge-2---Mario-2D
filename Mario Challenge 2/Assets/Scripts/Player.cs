@@ -12,6 +12,10 @@ public class Player : MonoBehaviour
     public LayerMask floorMask;
     private bool walk, walk_left, walk_right, jump;
 
+    private AudioSource audioSource;
+    public AudioClip jumpClip;
+
+
     public enum PlayerState
     {
         jumping,
@@ -28,7 +32,8 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-       // Fall();
+        // Fall();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -39,6 +44,17 @@ public class Player : MonoBehaviour
         UpdatePlayerPosition();
 
         UpdateAnimationStates();
+
+        PlaySound();
+    }
+
+    void PlaySound()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            audioSource.PlayOneShot(jumpClip);
+        }
+        
     }
 
     void UpdatePlayerPosition()
@@ -74,9 +90,12 @@ public class Player : MonoBehaviour
 
         if(playerState == PlayerState.jumping)
         {
+
             pos.y += velocity.y * Time.deltaTime;
 
             velocity.y -= gravity * Time.deltaTime;
+
+            
         }
 
         if (bounce && playerState == PlayerState.bouncing)
@@ -120,6 +139,7 @@ public class Player : MonoBehaviour
 
         if (playerState == PlayerState.jumping)
         {
+
             GetComponent<Animator>().SetBool("isJumping", true);
             GetComponent<Animator>().SetBool("isRunning", false);
         }
