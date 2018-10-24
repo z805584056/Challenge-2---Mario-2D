@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Castle : MonoBehaviour {
-
-    // Update is called once per frame
-
+public class Hole : MonoBehaviour
+{
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Win");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
         }
     }
 }

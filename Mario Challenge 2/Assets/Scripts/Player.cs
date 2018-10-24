@@ -46,6 +46,16 @@ public class Player : MonoBehaviour
         UpdateAnimationStates();
 
         PlaySound();
+
+        Exit();
+
+
+    }
+
+    void Exit()
+    {
+        if (Input.GetKey("escape"))
+            Application.Quit();
     }
 
     void PlaySound()
